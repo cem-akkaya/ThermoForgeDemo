@@ -1,6 +1,6 @@
 # ThermoForge Plugin - Demo Project UE5
 
-<img src="Plugins/ThermoForge/Resources/Splash.jpeg" alt="Splash Image" width="100%"/>
+<img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Splash.jpeg" alt="Splash Image" width="100%"/>
 
 ## About This Demo
 
@@ -29,9 +29,9 @@ The demo level includes several thermal volumes, sources, and a simple AI that r
 
 <table>
   <tr>
-    <td><img src="Plugins/ThermoForge/Resources/Demo4.gif" alt="Demo 1" width="100%"/></td>
-    <td><img src="Plugins/ThermoForge/Resources/Demo5.gif" alt="Demo 2" width="100%"/></td>
-    <td><img src="Plugins/ThermoForge/Resources/Demo10.gif" alt="Demo 3" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Demo4.gif" alt="Demo 1" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Demo5.gif" alt="Demo 2" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Demo10.gif" alt="Demo 3" width="100%"/></td>
   </tr>
 </table>
 
@@ -44,9 +44,9 @@ The demo level includes several thermal volumes, sources, and a simple AI that r
 
 <table>
   <tr>
-    <td><img src="Plugins/ThermoForge/Resources/Demo3.gif" alt="Demo 1" width="100%"/></td>
-    <td><img src="Plugins/ThermoForge/Resources/Demo6.gif" alt="Demo 2" width="100%"/></td>
-    <td><img src="Plugins/ThermoForge/Resources/Demo9.gif" alt="Demo 3" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Demo3.gif" alt="Demo 1" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Demo6.gif" alt="Demo 2" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Demo9.gif" alt="Demo 3" width="100%"/></td>
   </tr>
 </table>
 
@@ -70,13 +70,13 @@ You can edit the scripting logic to produce different thermal effects and measur
 - Main logic is in **BP_ThirdPersonCharacter**.
 - Demo level includes test widgets and networking examples.
 
-<img src="Plugins/ThermoForge/Resources/SS12.jpeg" alt="SS Image" width="100%"/>
+<img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/SS12.jpeg" alt="SS Image" width="100%"/>
 
 <table>
   <tr>
-    <td><img src="Plugins/ThermoForge/Resources/SS7.jpeg" alt="Demo 1" width="100%"/></td>
-    <td><img src="Plugins/ThermoForge/Resources/SS9.jpeg" alt="Demo 1" width="100%"/></td>
-    <td><img src="Plugins/ThermoForge/Resources/SS10.jpeg" alt="Demo 1" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/SS7.jpeg" alt="Demo 1" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/SS9.jpeg" alt="Demo 1" width="100%"/></td>
+    <td><img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/SS10.jpeg" alt="Demo 1" width="100%"/></td>
   </tr>
 </table>
 
