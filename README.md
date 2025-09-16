@@ -83,18 +83,6 @@ You can edit the scripting logic to produce different thermal effects and measur
 
 ---
 
-## Used Assets (Free)
-
-This demo uses several free assets from the Unreal Engine Marketplace / Epic Games that helped build the environment and core player setup.
-
-| Asset | Description | Link |
-|-------|-------------|------|
-| **Paragon Gideon** | One of the heroic characters from the **Paragon** asset pack by Epic Games. Fully rigged, animated, and released as part of the free Paragon content. Used here as the main player mesh/skin in the Third Person Template. | [Paragon: Gideon (Epic Games)](https://www.unrealengine.com/en-US/paragon) |
-| **Unreal Engine Third Person Template** | The built-in **Third Person** template provided with Unreal Engine, modified to work with the ThermoForge demo logic. | Included with Unreal Engine |
-| **Free Fantasy Environment Bundle** | Free fantasy-themed environment and prop assets from the Marketplace, used for test level decoration. | [Fantasy Environment Bundle (Free)](https://www.unrealengine.com/marketplace/en-US/product/fantasy-environment-bundle) |
-
----
-
 ## License
 
 This demo is distributed under the [MIT License](LICENSE).
