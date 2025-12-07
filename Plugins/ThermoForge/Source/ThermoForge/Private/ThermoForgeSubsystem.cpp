@@ -374,6 +374,18 @@ float UThermoForgeSubsystem::OcclusionBetween(const FVector& A, const FVector& B
     return S->DensityToPermeability(rho, Lfrac);
 }
 
+// Climate classifications
+EThermoClimateType UThermoForgeSubsystem::ClassifyClimateFromTemperature(float TempC) const
+{
+    if (TempC <= -5.f)  return EThermoClimateType::Arctic;
+    if (TempC <= 5.f)   return EThermoClimateType::Cold;
+    if (TempC <= 18.f)  return EThermoClimateType::Temperate;
+    if (TempC <= 28.f)  return EThermoClimateType::Warm;
+    if (TempC <= 40.f)  return EThermoClimateType::Tropical;
+
+    return EThermoClimateType::Desert;
+}
+
 // ---- main bake start: collect volumes and que first ----
 // Per volume creates a que, then starts process per volume and tickbake() to calculate actual cell grid.
 void UThermoForgeSubsystem::KickstartSamplingFromVolumes()
@@ -577,6 +589,31 @@ if (Best.bFound)
 FThermoForgeGridHit UThermoForgeSubsystem::QueryNearestBakedGridPointNow(const FVector& WorldLocation) const
 {
     return QueryNearestBakedGridPoint(WorldLocation, FDateTime::UtcNow());
+}
+
+EThermoClimateType UThermoForgeSubsystem::GetClimateTypeAtPoint(const FVector& WorldPos) const
+{
+    const UThermoForgeProjectSettings* Settings = GetSettings();
+    if (!Settings)
+        return EThermoClimateType::Temperate;
+
+    // Try sample if there is a volume at that point since its the source of truth
+    const bool  bWinter     = Settings->PreviewSeasonIsWinter;
+    const float TimeHours   = Settings->PreviewTimeOfDayHours;
+    const float WeatherAlfa = Settings->PreviewWeatherAlpha;
+
+    const float TempC = ComputeCurrentTemperatureAt(WorldPos, bWinter, TimeHours, WeatherAlfa);
+
+    // If the runtime system returns any meaningful temperature, classify now.
+    if (!FMath::IsNaN(TempC))
+    {
+        return ClassifyClimateFromTemperature(TempC);
+    }
+    // if there is no data we model the overall climate temperature at the point by falloff since it would be the most accurate model of climate.
+
+    float AmbientC = Settings->GetAmbientCelsiusAt(bWinter, TimeHours, WorldPos.Z);
+
+    return ClassifyClimateFromTemperature(AmbientC);
 }
 
 // --------- Runtime composition ---------

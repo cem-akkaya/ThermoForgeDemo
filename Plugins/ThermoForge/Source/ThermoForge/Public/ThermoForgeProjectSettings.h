@@ -53,7 +53,7 @@ public:
     float SeaLevelZcm = 0.f;
 
     /** °C decrease per kilometer of altitude. */
-    UPROPERTY(EditAnywhere, Config, Category="Climate|Altitude", meta=(ClampMin="0.0", ClampMax="40.0"))
+    UPROPERTY(EditAnywhere, Config, Category="Climate|Altitude", meta=(ClampMin="0.0", ClampMax="4000.0"))
     float LapseRateCPerKm = 10.f;
 
     // ======== PERMEABILITY / OCCLUSION ========

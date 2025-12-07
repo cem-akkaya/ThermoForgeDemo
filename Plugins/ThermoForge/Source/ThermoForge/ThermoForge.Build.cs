@@ -29,8 +29,8 @@ public class ThermoForge : ModuleRules
 				"CoreUObject",
 				"Engine", 
 				"AIModule",
+				"PCG"
 			}
-
 			);
 			
 		

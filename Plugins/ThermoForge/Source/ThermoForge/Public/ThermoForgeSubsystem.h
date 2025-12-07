@@ -52,6 +52,34 @@ struct FThermoForgeGridHit
     float CurrentTempC = 0.f;
 };
 
+// ---------- CLIMATE TYPE ----------
+UENUM(BlueprintType)
+enum class EThermoClimateType : uint8
+{
+    Arctic     UMETA(DisplayName="Arctic"),
+    Cold       UMETA(DisplayName="Cold"),
+    Temperate  UMETA(DisplayName="Temperate"),
+    Warm       UMETA(DisplayName="Warm"),
+    Desert     UMETA(DisplayName="Desert"),
+    Tropical   UMETA(DisplayName="Tropical")
+};
+
+// ---------- CLIMATE STRUCT ----------
+USTRUCT(BlueprintType)
+struct FThermoClimateInfo
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Climate")
+    float MeanAnnualTemperature = 10.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Climate")
+    float AnnualTemperatureRange = 20.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Climate")
+    EThermoClimateType ClimateType = EThermoClimateType::Temperate;
+};
+
 DECLARE_MULTICAST_DELEGATE_OneParam(FThermoBakeProgress, float /*Progress01*/);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FThermoSourcesChanged);
 
@@ -91,8 +119,13 @@ public:
     UFUNCTION(BlueprintCallable, Category="ThermoForge|Query")
     FThermoForgeGridHit QueryNearestBakedGridPoint(const FVector& WorldLocation, const FDateTime& QueryTimeUTC) const;
 
+    /** Find nearest baked grid point with current UTC of player or system*/
     UFUNCTION(BlueprintCallable, Category="ThermoForge|Query")
     FThermoForgeGridHit QueryNearestBakedGridPointNow(const FVector& WorldLocation) const;
+    
+    /** Return overall climate type at given world position for annual. */
+    UFUNCTION(BlueprintCallable, Category="ThermoForge|Climate")
+    EThermoClimateType GetClimateTypeAtPoint(const FVector& WorldPos) const;
 
     // Compose temperature from *baked field only* (Ambient + Solar*SkyView).
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="ThermoForge|Query")
@@ -161,6 +194,8 @@ private:
 
     bool ComputeNearestInVolume(const AThermoForgeVolume* Vol, const FVector& WorldLocation, FThermoForgeGridHit& OutHit) const;
     bool VolumeContainsPoint(const AThermoForgeVolume* Vol, const FVector& WorldLocation) const;
+    
+    EThermoClimateType ClassifyClimateFromTemperature(float TempC) const;
 
 #if WITH_EDITOR
     UThermoForgeFieldAsset* CreateAndSaveFieldAsset(AThermoForgeVolume* Volume, const FIntVector& Dim, float Cell, const FVector& FieldOriginWS, const FRotator& GridRotation,
