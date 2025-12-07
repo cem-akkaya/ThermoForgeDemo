@@ -21,7 +21,7 @@ FVector UThermoForgeSourceComponent::GetOwnerLocationSafe() const
     return FVector::ZeroVector;
 }
 
-// Helper but calculate in sample at anyway.
+// Helper but calculate in sample at anyway. 
 static float PointFalloffWeight(EThermoSourceFalloff F, float Distance, float Radius, const UCurveFloat* Curve)
 {
     if (Radius <= KINDA_SMALL_NUMBER) return 0.f;

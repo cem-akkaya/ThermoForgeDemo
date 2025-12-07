@@ -17,7 +17,7 @@ enum class EThermoSourceFalloff : uint8
     None          UMETA(DisplayName="None"),
     Linear        UMETA(DisplayName="Linear"),
     InverseSquare UMETA(DisplayName="Inverse Square"),
-    Curve         UMETA(DisplayName="Curve")
+    Curve         UMETA(DisplayName="Curve (Custom)")
 };
 
 UCLASS(ClassGroup=(ThermoForge), BlueprintType, Blueprintable, meta=(BlueprintSpawnableComponent))
@@ -26,6 +26,7 @@ class THERMOFORGE_API UThermoForgeSourceComponent : public UActorComponent
     GENERATED_BODY()
 
 public:
+    
     UThermoForgeSourceComponent();
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Thermo Source")
@@ -41,10 +42,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Thermo Source|Point", meta=(EditCondition="Shape==EThermoSourceShape::Point", ClampMin="0.0", Units="cm"))
     float RadiusCm = 300.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Thermal|Falloff")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Thermal Source|Falloff")
     EThermoSourceFalloff Falloff = EThermoSourceFalloff::Linear;
     
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Thermal|Falloff",
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Thermal Source|Falloff",
     meta = (EditCondition="Falloff == EThermoSourceFalloff::Curve"))
     UCurveFloat* FalloffCurve = nullptr;
 
