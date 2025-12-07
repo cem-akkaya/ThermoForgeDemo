@@ -21,21 +21,26 @@ FVector UThermoForgeSourceComponent::GetOwnerLocationSafe() const
     return FVector::ZeroVector;
 }
 
-static float PointFalloffWeight(EThermoSourceFalloff F, float Distance, float Radius)
+// Helper but calculate in sample at anyway.
+static float PointFalloffWeight(EThermoSourceFalloff F, float Distance, float Radius, const UCurveFloat* Curve)
 {
     if (Radius <= KINDA_SMALL_NUMBER) return 0.f;
     if (Distance >= Radius) return 0.f;
 
+    const float x = FMath::Clamp(Distance / Radius, 0.f, 1.f);
+
     switch (F)
     {
-        case EThermoSourceFalloff::None:   return 1.f;
-        case EThermoSourceFalloff::Linear: { const float x = Distance / Radius; return 1.f - x; }
-        case EThermoSourceFalloff::InverseSquare:
-        default:
-        {
-            const float x = Distance / Radius;
-            return 1.f / (1.f + x * x);
-        }
+    case EThermoSourceFalloff::None:   return 1.f;
+    case EThermoSourceFalloff::Linear: return 1.f - x;
+    case EThermoSourceFalloff::InverseSquare:
+        return 1.f / (1.f + x * x);
+
+    case EThermoSourceFalloff::Curve:
+        return Curve ? FMath::Max(Curve->GetFloatValue(x), 0.f) : (1.f - x);
+
+    default:
+        return 1.f - x;
     }
 }
 
@@ -68,15 +73,56 @@ float UThermoForgeSourceComponent::SampleAt(const FVector& P) const
     if (Shape == EThermoSourceShape::Point)
     {
         const float R = RadiusCm * scale;
+        if (R <= KINDA_SMALL_NUMBER) return 0.f;
+
         const float d = FVector::Distance(P, L);
-        const float w = PointFalloffWeight(Falloff, d, R);
+        if (d >= R) return 0.f;
+
+        const float x = FMath::Clamp(d / R, 0.f, 1.f);
+
+        float w = 0.f;
+        switch (Falloff)
+        {
+        case EThermoSourceFalloff::None:
+            w = 1.f;
+            break;
+
+        case EThermoSourceFalloff::Linear:
+            w = 1.f - x;
+            break;
+
+        case EThermoSourceFalloff::InverseSquare:
+            w = 1.f / (1.f + x * x);
+            break;
+
+        case EThermoSourceFalloff::Curve:
+            if (FalloffCurve)
+            {
+                w = FalloffCurve->GetFloatValue(x);
+            }
+            else
+            {
+                // fallback
+                w = 1.f - x;
+            }
+            break;
+
+        default:
+            w = 1.f - x;
+            break;
+        }
+
+        // clamp in case the curve overshoots
+        w = FMath::Max(w, 0.f);
+
         return IntensityCelsius * w;
     }
     else
     {
-        const FVector Ext = bAffectByOwnerScale ? (BoxExtent * scale) : BoxExtent;
+        const FVector Ext    = bAffectByOwnerScale ? (BoxExtent * scale) : BoxExtent;
         const FVector LocalP = T.InverseTransformPosition(P);
-        const FVector Min = -Ext, Max = Ext;
+        const FVector Min    = -Ext;
+        const FVector Max    =  Ext;
 
         const bool bInside =
             (LocalP.X >= Min.X && LocalP.X <= Max.X) &&
@@ -86,6 +132,7 @@ float UThermoForgeSourceComponent::SampleAt(const FVector& P) const
         return bInside ? IntensityCelsius : 0.f;
     }
 }
+
 
 void UThermoForgeSourceComponent::OnRegister()
 {

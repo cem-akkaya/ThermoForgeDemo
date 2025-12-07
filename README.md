@@ -81,7 +81,7 @@ You can edit the scripting logic to produce different thermal effects and measur
 </table>
 
 
----
+---/\
 
 ## License
 
