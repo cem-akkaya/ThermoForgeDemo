@@ -1,4 +1,4 @@
-# ThermoForge Plugin - Demo Project UE5
+# ThermoForge Plugin - Demo Project (UE5.7)
 
 <img src="https://raw.githubusercontent.com/cem-akkaya/ThermoForge/master/Resources/Splash.jpeg" alt="Splash Image" width="100%"/>
 
